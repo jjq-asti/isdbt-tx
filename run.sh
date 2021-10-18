@@ -10,4 +10,4 @@ then
 
 fi
 
-docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --privileged -v /dev:/dev -v /proc:/proc -v persistent-37:/home/gnuradio/persistent -v $1:/home/gnuradio/c.ts -v $2:/home/gnuradio/a.ts -v $PWD/tx_demo.py:/home/gnuradio/persistent/tx_demo.py --group-add=audio -t isdbt-tx sh -c "python2 persistent/tx_demo.py"
+docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --privileged -v /dev:/dev -v /proc:/proc -v persistent-37:/home/gnuradio/persistent -v $1:/home/gnuradio/c.ts -v $2:/home/gnuradio/a.ts --group-add=audio -it isdbt-tx bash

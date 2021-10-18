@@ -35,6 +35,8 @@ RUN uhd_images_downloader
 
 RUN cp /usr/lib/uhd/utils/uhd-usrp.rules /etc/udev/rules.d/
 
+COPY $PWD/tx_demo.py /home/gnuradio
+
 USER gnuradio
 
 WORKDIR /home/gnuradio
