@@ -1,1 +1,12 @@
 ruralsync isdbt transmitter using gnuradio
+
+#build
+1. docker build -t isdbt-tx .
+
+#run 
+
+sh run.sh [path to channel_program ts] [path to layer_a ts] 
+
+ex.
+
+sh run.sh /tmp/channel_program.ts /home/name/isdbt-tx/layer_a.ts
