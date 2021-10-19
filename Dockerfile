@@ -35,9 +35,9 @@ RUN uhd_images_downloader
 
 RUN cp /usr/lib/uhd/utils/uhd-usrp.rules /etc/udev/rules.d/
 
-COPY $PWD/tx_demo.py /home/gnuradio
-
 USER gnuradio
+
+COPY $PWD/tx_demo.py /home/gnuradio
 
 WORKDIR /home/gnuradio
 RUN git clone https://github.com/git-artes/gr-isdbt.git persistent/gr-isdbt
