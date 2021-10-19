@@ -35,6 +35,8 @@ RUN uhd_images_downloader
 
 RUN cp /usr/lib/uhd/utils/uhd-usrp.rules /etc/udev/rules.d/
 
+RUN echo "gnuradio ALL=(ALL:ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/gnuradio
+
 USER gnuradio
 
 COPY $PWD/tx_demo.py /home/gnuradio
