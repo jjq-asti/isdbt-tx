@@ -54,7 +54,7 @@ RUN make install
 RUN ldconfig
 USER gnuradio
 WORKDIR /home/gnuradio
-#ENTRYPOINT ["python", "tx_demo.py"]
 ENV PYTHONPATH "${PYTHONPATH}:/usr/local/lib/python3/dist-packages"
+ENTRYPOINT ["python", "tx_demo.py"]
 
-CMD bash
+#CMD bash
