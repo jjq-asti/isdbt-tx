@@ -43,7 +43,7 @@ from gnuradio import qtgui
 
 class rx_demo(gr.top_block, Qt.QWidget):
 
-    def __init__(self, tx_freq):
+    def __init__(self, seg12, seg1, tx_freq):
         gr.top_block.__init__(self, "Tx Demo")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Tx Demo")
@@ -186,9 +186,9 @@ class rx_demo(gr.top_block, Qt.QWidget):
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_char*1, 188)
         self.blocks_skiphead_0 = blocks.skiphead(gr.sizeof_gr_complex*data_carriers, 2)
         self.blocks_multiply_const_xx_0 = blocks.multiply_const_cc(bb_gain)
-        self.blocks_file_source_0_0 = blocks.file_source(gr.sizeof_char*1, '/home/gnuradio/c.ts', False)
+        self.blocks_file_source_0_0 = blocks.file_source(gr.sizeof_char*1, seg12, False)
         self.blocks_file_source_0_0.set_begin_tag(pmt.PMT_NIL)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/gnuradio/a.ts', True)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, seg1, True)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
 
 
@@ -346,7 +346,7 @@ def main(top_block_cls=rx_demo, options=None, **kwargs):
         print "Error: failed to enable real-time scheduling."
     
     qapp = Qt.QApplication(sys.argv)
-    tb = top_block_cls(kwargs['tx_freq'])
+    tb = top_block_cls(kwargs['seg12'], kwargs['seg1'], kwargs['tx_freq'])
     tb.start()
     tb.show()
 
@@ -358,14 +358,17 @@ def main(top_block_cls=rx_demo, options=None, **kwargs):
 
 
 if __name__ == '__main__':
-    freq = sys.argv[1]
+    seg_12 = sys.argv[1]
+    seg_1 = sys.argv[2]
+    freq = sys.argv[3]
     if not freq:
         raise ValueError("Tx Freq Reuired")
-    if freq < 473143000:
-        raise ValueError("Wrong freq: try 473143000")
     try:
         freq = int(freq)
+        print freq
     except:
         raise ValueError("must be positive integer")
+    if freq < 473143000:
+        raise ValueError("Wrong freq: try 473143000")
 
-    main(tx_freq=freq)
+    main(tx_freq=freq,seg12=seg_12,seg1=seg_1)
