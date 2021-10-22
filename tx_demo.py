@@ -358,6 +358,7 @@ def main(top_block_cls=rx_demo, options=None, **kwargs):
 
 
 if __name__ == '__main__':
+    time.sleep(10)
     freq = sys.argv[1]
     if not freq:
         raise ValueError("Tx Freq Reuired")
