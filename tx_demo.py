@@ -43,7 +43,7 @@ from gnuradio import qtgui
 
 class rx_demo(gr.top_block, Qt.QWidget):
 
-    def __init__(self):
+    def __init__(self, tx_freq):
         gr.top_block.__init__(self, "Tx Demo")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Tx Demo")
@@ -85,7 +85,7 @@ class rx_demo(gr.top_block, Qt.QWidget):
         self.guard = guard = 1.0/16
         self.data_carriers = data_carriers = 13*96*2**(mode-1)
         self.const_size = const_size = 64
-        self.center_freq = center_freq = 473.143e6
+        self.center_freq = center_freq = tx_freq
         self.bb_gain = bb_gain = 0.0022097087
         self.active_carriers = active_carriers = 13*108*2**(mode-1)+1
 
@@ -224,7 +224,7 @@ class rx_demo(gr.top_block, Qt.QWidget):
         self.connect((self.isdbt_tmcc_encoder_0, 0), (self.fft_vxx_1, 0))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "rx_demo")
+        self.settings = Qt.QSettings("GNU Radio", "Tx_demo")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -341,13 +341,12 @@ class rx_demo(gr.top_block, Qt.QWidget):
         self.active_carriers = active_carriers
 
 
-def main(top_block_cls=rx_demo, options=None):
+def main(top_block_cls=rx_demo, options=None, **kwargs):
     if gr.enable_realtime_scheduling() != gr.RT_OK:
         print "Error: failed to enable real-time scheduling."
-
+    
     qapp = Qt.QApplication(sys.argv)
-
-    tb = top_block_cls()
+    tb = top_block_cls(kwargs['tx_freq'])
     tb.start()
     tb.show()
 
@@ -359,4 +358,14 @@ def main(top_block_cls=rx_demo, options=None):
 
 
 if __name__ == '__main__':
-    main()
+    freq = sys.argv[1]
+    if not freq:
+        raise ValueError("Tx Freq Reuired")
+    if freq < 473143000:
+        raise ValueError("Wrong freq: try 473143000")
+    try:
+        freq = int(freq)
+    except:
+        raise ValueError("must be positive integer")
+
+    main(tx_freq=freq)

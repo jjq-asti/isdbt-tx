@@ -39,8 +39,6 @@ RUN echo "gnuradio ALL=(ALL:ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/gnuradio
 
 USER gnuradio
 
-COPY $PWD/tx_demo.py /home/gnuradio
-
 WORKDIR /home/gnuradio
 RUN git clone https://github.com/git-artes/gr-isdbt.git persistent/gr-isdbt
 WORKDIR /home/gnuradio/persistent/gr-isdbt
@@ -48,11 +46,13 @@ RUN mkdir build
 WORKDIR /home/gnuradio/persistent/gr-isdbt/build
 RUN cmake ../
 RUN make
+COPY $PWD/tx_demo.py /home/gnuradio
 USER root
 RUN make install
 RUN ldconfig
 USER gnuradio
 WORKDIR /home/gnuradio
+ENTRYPOINT ["python", "tx_demo.py"]
 ENV PYTHONPATH "${PYTHONPATH}:/usr/local/lib/python3/dist-packages"
 
 CMD bash
