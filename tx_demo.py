@@ -186,9 +186,9 @@ class rx_demo(gr.top_block, Qt.QWidget):
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_char*1, 188)
         self.blocks_skiphead_0 = blocks.skiphead(gr.sizeof_gr_complex*data_carriers, 2)
         self.blocks_multiply_const_xx_0 = blocks.multiply_const_cc(bb_gain)
-        self.blocks_file_source_0_0 = blocks.file_source(gr.sizeof_char*1, seg12, False)
+        self.blocks_file_source_0_0 = blocks.file_source(gr.sizeof_char*1, '/home/gnuradio/c.ts', False)
         self.blocks_file_source_0_0.set_begin_tag(pmt.PMT_NIL)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, seg1, True)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/gnuradio/a.ts', True)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
 
 
@@ -346,7 +346,7 @@ def main(top_block_cls=rx_demo, options=None, **kwargs):
         print "Error: failed to enable real-time scheduling."
     
     qapp = Qt.QApplication(sys.argv)
-    tb = top_block_cls(kwargs['seg12'], kwargs['seg1'], kwargs['tx_freq'])
+    tb = top_block_cls(kwargs['tx_freq'])
     tb.start()
     tb.show()
 
@@ -370,4 +370,4 @@ if __name__ == '__main__':
     if freq < 473143000:
         raise ValueError("Wrong freq: try 473143000")
 
-    main(tx_freq=freq,seg12=seg_12,seg1=seg_1)
+    main(tx_freq=freq)
