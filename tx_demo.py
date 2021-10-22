@@ -43,7 +43,7 @@ from gnuradio import qtgui
 
 class rx_demo(gr.top_block, Qt.QWidget):
 
-    def __init__(self, seg12, seg1, tx_freq):
+    def __init__(self, tx_freq):
         gr.top_block.__init__(self, "Tx Demo")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Tx Demo")
