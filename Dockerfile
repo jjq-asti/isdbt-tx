@@ -36,9 +36,11 @@ RUN uhd_images_downloader
 RUN cp /usr/lib/uhd/utils/uhd-usrp.rules /etc/udev/rules.d/
 
 RUN echo "gnuradio ALL=(ALL:ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/gnuradio
+RUN usermod -aG usrp gnuradio
+RUN echo "@usrp - rtprio  99" >> /etc/security/limits.conf 
+RUN sudo apt-get install libx11-dev -y
 
 USER gnuradio
-
 WORKDIR /home/gnuradio
 RUN git clone https://github.com/git-artes/gr-isdbt.git persistent/gr-isdbt
 WORKDIR /home/gnuradio/persistent/gr-isdbt
@@ -52,7 +54,7 @@ RUN make install
 RUN ldconfig
 USER gnuradio
 WORKDIR /home/gnuradio
-ENTRYPOINT ["python", "tx_demo.py"]
+#ENTRYPOINT ["python", "tx_demo.py"]
 ENV PYTHONPATH "${PYTHONPATH}:/usr/local/lib/python3/dist-packages"
 
 CMD bash
