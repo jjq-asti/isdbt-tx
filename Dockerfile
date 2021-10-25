@@ -42,7 +42,7 @@ RUN sudo apt-get install libx11-dev -y
 
 USER gnuradio
 WORKDIR /home/gnuradio
-RUN git clone https://github.com/git-artes/gr-isdbt.git persistent/gr-isdbt
+RUN git clone https://github.com/robot-1/gr-isdbt.git persistent/gr-isdbt
 WORKDIR /home/gnuradio/persistent/gr-isdbt
 RUN mkdir build
 WORKDIR /home/gnuradio/persistent/gr-isdbt/build
