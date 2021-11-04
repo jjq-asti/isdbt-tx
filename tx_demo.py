@@ -43,7 +43,7 @@ from gnuradio import qtgui
 
 class rx_demo(gr.top_block, Qt.QWidget):
 
-    def __init__(self, tx_freq):
+    def __init__(self, tx_freq, default_tx_gain):
         gr.top_block.__init__(self, "Tx Demo")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Tx Demo")
@@ -72,7 +72,7 @@ class rx_demo(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.mode = mode = 3
-        self.tx_gain = tx_gain = 80
+        self.tx_gain = tx_gain = default_tx_gain 
         self.total_carriers = total_carriers = 2**(10+mode)
         self.segments_c = segments_c = 0
         self.segments_b = segments_b = 12
@@ -346,7 +346,7 @@ def main(top_block_cls=rx_demo, options=None, **kwargs):
         print "Error: failed to enable real-time scheduling."
     
     qapp = Qt.QApplication(sys.argv)
-    tb = top_block_cls(kwargs['tx_freq'])
+    tb = top_block_cls(kwargs['tx_freq'], kwargs['default_tx_gain'])
     tb.start()
     tb.show()
 
@@ -360,6 +360,11 @@ def main(top_block_cls=rx_demo, options=None, **kwargs):
 if __name__ == '__main__':
     time.sleep(10)
     freq = sys.argv[1]
+    try:
+        d_tx_gain = sys.argv[2]
+    except:
+        d_tx_gain = 2
+
     if not freq:
         raise ValueError("Tx Freq Reuired")
     try:
@@ -370,4 +375,4 @@ if __name__ == '__main__':
     if freq < 473143000:
         raise ValueError("Wrong freq: try 473143000")
 
-    main(tx_freq=freq)
+    main(tx_freq=freq, default_tx_gain = d_tx_gain)
