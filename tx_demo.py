@@ -92,7 +92,7 @@ class rx_demo(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self._tx_gain_range = Range(0, 89, 1, 80, 200)
+        self._tx_gain_range = Range(0, 89, 1, self.tx_gain, 200)
         self._tx_gain_win = RangeWidget(self._tx_gain_range, self.set_tx_gain, "tx_gain", "counter_slider", float)
         self.top_grid_layout.addWidget(self._tx_gain_win)
         self._bb_gain_tool_bar = Qt.QToolBar(self)
@@ -363,7 +363,7 @@ if __name__ == '__main__':
     try:
         d_tx_gain = sys.argv[2]
     except:
-        d_tx_gain = 2
+        d_tx_gain = 20
 
     if not freq:
         raise ValueError("Tx Freq Reuired")
