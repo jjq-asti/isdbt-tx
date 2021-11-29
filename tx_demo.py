@@ -375,4 +375,4 @@ if __name__ == '__main__':
     if freq < 473143000:
         raise ValueError("Wrong freq: try 473143000")
 
-    main(tx_freq=freq, default_tx_gain = float(d_tx_gain))
+    main(tx_freq=freq, default_tx_gain = int(d_tx_gain))
